@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+set -e
+
+server_host=""
+server_host_name=""
+server_user_name=""
+server_identityfile="${SSH_ROOT}/id_rsa"
+
+until [ -z "$1" ]
+do
+    command="$1"
+    case "$command" in
+        "-h" | "--host" )
+            server_host="$2"
+            shift 2
+            ;;
+        "-n" | "--host-name" )
+            server_host_name="$2"
+            shift 2
+            ;;
+        "-u" | "--user" )
+            server_user_name="$2"
+            shift 2
+            ;;
+        * )
+            shift
+            ;;
+    esac
+done
+
+if [ -z "$server_host" ]; then
+    read -p "(host):" server_host
+fi
+
+if [ -z "$server_user_name" ]; then
+    read -p "(user):" server_user_name
+fi
+
+if [ -z "$server_host_name" ]; then
+    read -p "(host_name):" server_host_name
+fi
+
+printf "\nHost $server_host
+\tUser $server_user_name
+\tHostname $server_host_name
+\tIdentityFile $server_identityfile\n" >> ${SSH_ROOT}/config

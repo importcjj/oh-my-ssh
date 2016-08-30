@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+set -e
+
+export SSH_ROOT="${HOME}/.ssh"
+
+lib_path="$(dirname "$0")/../libexec"
+export PATH="${lib_path}:${PATH}"
+
+command="$1"
+case "$command" in
+"--version" )
+    echo "oh-my-ssh 0.1.0"
+    ;;
+"list" )
+    exec oh-list
+    ;;
+"init" )
+    exec oh-init
+    ;;
+"add" )
+    #shift
+    exec oh-add "$@"
+    ;;
+"rm" )
+    exec oh-rm
+    ;;
+* )
+    printf "oh-my-ssh:
+\t help you to manage your ssh configure\n"
+    ;;
+esac

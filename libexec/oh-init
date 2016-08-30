@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [ -f "${HOME}/.ssh/config" ]; then
+    if [ -f "${SSH_ROOT}/config" ]; then
+        cat ${SSH_ROOT}/config > ${SSH_ROOT}/config.bak
+    fi
+    printf "oh-my-ssh: 
+\t backup %s to %s\n" \
+           ${SSH_ROOT}/config \
+           ${SSH_ROOT}/config.bak
+fi
+

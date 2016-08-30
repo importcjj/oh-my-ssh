@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+set -e
+
+OHMYSSH_ROOT="${HOME}/.oh-my-ssh"
+
+#if [ ! -d "${OHMYSSH_ROOT}" ]; then
+#    mkdir "${OHMYSSH_ROOT}"
+#    flag=$?
+#    if [ $flag -ne "0" ]; then
+#        { echo
+#          colorize 1 "WARNING"
+#          echo ": can't continue, since failed to create ${OHMYSSH_ROOT}"
+#          echo
+#        } >&2
+#    fi
+#fi
+
+function checkout() {
+    if [ -d "$2" ]; then
+        { echo
+          colorize 33 "WARNING"
+          echo ": $2 already exists"
+          echo
+        } >&2
+    else
+        git clone --depth 1 "$1" "$2"
+    fi
+}
+
+function colorize() {
+    if [ -t 1 ]; then printf "\e[%sm%s\e[m" "$1" "$2"
+    else echo -n "$2"
+    fi
+}
+
+
+checkout "git@github.com:importcjj/oh-my-ssh.git"  "${OHMYSSH_ROOT}"
+
+{ echo
+  colorize 32 "TIPS"
+  echo ": Add the following to your profile"
+  echo
+  echo "export PATH=\"${OHMYSSH_ROOT}/bin:\$PATH\""
+  echo
+  echo "After that, just init oh-my-ssh by run: oh init"
+} >&2

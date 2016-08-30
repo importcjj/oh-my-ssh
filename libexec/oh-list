@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+set -e
+
+ssh_config="${SSH_ROOT}/config"
+
+function list() {
+    
+    hosts=`awk '/Host /{print $2}' ${ssh_config}`
+    host_num=`awk '/Host /{print $2}' ${ssh_config} | wc -l`
+
+    hostnames=`awk '/Hostname /{print $2}' ${ssh_config}`
+    hostname_num=`awk '/Hostname /{print $2}' ${ssh_config} | wc -l`
+
+    usernames=`awk '/User /{print $2}' ${ssh_config}`
+    username_num=`awk '/User /{print $2}' ${ssh_config} | wc -l`
+
+
+    if [ $host_num != $hostname_num ]; then
+        echo "\e[30m WARNING \e[m"
+        echo ": seems there are some error in your ssh config"
+    fi
+    
+    i=1
+    for host in $hosts
+    do
+        printf "[%d]  Alias:  %-20s Host:  %-20s User:  %s\n" $i\
+               $host \
+               `echo $hostnames | cut -d " " -f $i` \
+               `echo $usernames | cut -d " " -f $i`
+        let "i+=1"
+    done
+}
+
+list
+
+
