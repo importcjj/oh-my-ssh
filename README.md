@@ -10,7 +10,7 @@ curl -L https://raw.githubusercontent.com/importcjj/oh-my-ssh/master/utils/oh-in
 
 ## 使用
 
-* oh --versin
+* oh --version
 * oh list
 * oh add
 * oh rm (TODO)
